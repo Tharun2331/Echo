@@ -1,9 +1,8 @@
-import { query } from "./_generated/server";
-import { mutation, MutationCtx} from "./_generated/server";
+import { mutation, query} from "./_generated/server";
 
 export const getMany = query({
   args:{},
-  handler: async (ctx: MutationCtx) => {
+  handler: async (ctx) => {
     const users = await ctx.db.query("users").collect();
     return users;
   }
@@ -13,7 +12,7 @@ export const getMany = query({
 
 export const add  = mutation({
   args:{},
-  handler: async (ctx: MutationCtx) => {
+  handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (identity === null) {
       throw new Error("Not authenticated");
