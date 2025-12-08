@@ -1,8 +1,8 @@
-import { mutation, query} from "./_generated/server";
+import { mutation, query, type QueryCtx, type MutationCtx} from "./_generated/server";
 
 export const getMany = query({
   args:{},
-  handler: async (ctx) => {
+  handler: async (ctx: QueryCtx) => {
     const users = await ctx.db.query("users").collect();
     return users;
   }
@@ -12,7 +12,7 @@ export const getMany = query({
 
 export const add  = mutation({
   args:{},
-  handler: async (ctx) => {
+  handler: async (ctx: MutationCtx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (identity === null) {
       throw new Error("Not authenticated");
@@ -23,8 +23,6 @@ export const add  = mutation({
     {
       throw new Error("Missing Organization");
     }
-
-    throw new Error("Tracking test");
 
     const userId = await ctx.db.insert("users", {
       name: "Raju"
